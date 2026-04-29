@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --navbar: #1a1a1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navbar: var(--navbar);
+  --font-jetbrains: var(--font-jetbrains);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-jetbrains), monospace;
+  overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+::selection {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.bento-grid {
+  display: grid;
+  gap: 12px;
+  height: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2.5fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "work work"
+    "about contact"
+    "github instagram"
+    "linkedin piex";
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 3fr 1fr 1fr;
+    grid-template-areas:
+      "work work about"
+      "contact instagram linkedin"
+      "github instagram piex";
+  }
+}
+
+@keyframes eq-1 { 0%, 100% { height: 4px; }  50% { height: 14px; } }
+@keyframes eq-2 { 0%, 100% { height: 10px; } 50% { height: 4px; } }
+@keyframes eq-3 { 0%, 100% { height: 6px; }  50% { height: 14px; } }
+@keyframes eq-4 { 0%, 100% { height: 12px; } 50% { height: 5px; } }
