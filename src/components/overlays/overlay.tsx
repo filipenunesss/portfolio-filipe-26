@@ -63,7 +63,7 @@ export default function Overlay({ open, onClose, title, children }: Props) {
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="fixed inset-0 top-16 z-40 translate-y-full touch-none"
+      className="fixed inset-0 top-16 z-40 translate-y-full"
     >
       <div className="flex h-full flex-col bg-white shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
         <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-6 md:px-10 py-6">
@@ -93,7 +93,8 @@ export default function Overlay({ open, onClose, title, children }: Props) {
 
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-scroll overscroll-contain touch-pan-y px-6 md:px-10 py-10"
+          data-lenis-prevent
+          className="flex-1 overflow-y-auto overscroll-contain px-6 md:px-10 py-10"
         >
           {children}
         </div>
