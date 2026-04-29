@@ -27,7 +27,7 @@ export default function Header() {
         <div className="flex items-center gap-4 px-3 py-3 md:px-4">
           <div className="h-14 w-14 md:h-16 md:w-16 shrink-0 overflow-hidden rounded-xl">
             <video
-              src="/memoji.mp4"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memoji.mp4`}
               autoPlay
               loop
               muted
