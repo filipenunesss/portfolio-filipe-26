@@ -9,6 +9,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://filipedev.com.br"),
   title: "Filipe — Creative Developer",
   description: "Building digital experiences with code, motion, and purpose.",
 };
