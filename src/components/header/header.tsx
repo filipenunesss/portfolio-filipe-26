@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Clock from "@/components/header/clock";
@@ -10,9 +9,44 @@ import SpotifyPlayer from "@/components/header/spotify-player";
 import SpotifyIcon from "@/components/header/spotify-icon";
 import EqBars from "@/components/header/eq-bars";
 
+const UNLOCK_EVENTS = ["touchend", "click", "keydown"] as const;
+
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [spotifyOpen, setSpotifyOpen] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.setAttribute("muted", "");
+
+    const play = () => {
+      if (!video.paused) return;
+      video.play().catch(() => {});
+    };
+
+    const removeUnlock = () => {
+      UNLOCK_EVENTS.forEach((e) => window.removeEventListener(e, play));
+    };
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") play();
+    };
+
+    UNLOCK_EVENTS.forEach((e) => window.addEventListener(e, play, { passive: true }));
+    video.addEventListener("playing", removeUnlock);
+    document.addEventListener("visibilitychange", onVisibility);
+    play();
+
+    return () => {
+      removeUnlock();
+      video.removeEventListener("playing", removeUnlock);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
 
   useGSAP(() => {
     gsap.fromTo(
@@ -27,13 +61,14 @@ export default function Header() {
       <div className="bg-navbar overflow-hidden rounded-2xl">
         <div className="flex items-center gap-4 px-3 py-3 md:px-4">
           <div className="h-14 w-14 md:h-16 md:w-16 shrink-0 overflow-hidden rounded-xl">
-            <Image
-              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memoji.webp`}
-              alt="Filipe memoji"
-              width={160}
-              height={160}
-              priority
-              unoptimized
+            <video
+              ref={videoRef}
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memoji.mp4`}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
               className="h-full w-full object-cover mix-blend-screen"
             />
           </div>
