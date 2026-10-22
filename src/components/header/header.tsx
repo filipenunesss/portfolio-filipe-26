@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Clock from "@/components/header/clock";
@@ -11,15 +12,7 @@ import EqBars from "@/components/header/eq-bars";
 
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [spotifyOpen, setSpotifyOpen] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-    video.play().catch(() => {});
-  }, []);
 
   useGSAP(() => {
     gsap.fromTo(
@@ -34,15 +27,13 @@ export default function Header() {
       <div className="bg-navbar overflow-hidden rounded-2xl">
         <div className="flex items-center gap-4 px-3 py-3 md:px-4">
           <div className="h-14 w-14 md:h-16 md:w-16 shrink-0 overflow-hidden rounded-xl">
-            <video
-              ref={videoRef}
-              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memoji.mp4`}
-              poster={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memoji-poster.jpg`}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
+            <Image
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memoji.webp`}
+              alt="Filipe memoji"
+              width={160}
+              height={160}
+              priority
+              unoptimized
               className="h-full w-full object-cover mix-blend-screen"
             />
           </div>
